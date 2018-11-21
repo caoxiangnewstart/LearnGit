@@ -191,7 +191,7 @@ Route::get('/bindhref',function(){
     return 'bindhref';
 });
 
-Route::get('/laravel',function(){
+Route::get('/collect',function(){
     $arr = collect([
         ['id'=>1,'age'=>20,'name'=>'xiaohui'],
         ['id'=>2,'age'=>30,'name'=>'daping'],
@@ -226,14 +226,69 @@ Route::get('/laravel',function(){
     dd($diff_item);*/
 
 //transform会修改集合的本身？
-    $collection = collect([1,2,3]);
+/*    $collection = collect([1,2,3]);
     $new_c = $collection->map(function($item,$key){
         return $item*2;
     });
-    dd($collection->all(),$new_c->all());
+    dd($collection->all(),$new_c->all());*/
 
+    //tap
+/*    $tap =[];
+    collect([1,2,3])->tap(function($item)use(&$tap){
+        $tap = $item->toArray();
+    });
+    dd($tap);*/
+
+    //take($int)返回集合中$int个子集，$int可以为负数
+/*    $t_col = collect([1,2,3])->take(2)->take(-1)->values();
+    dd($t_col);*/
+
+    //splice
+/*    $col = collect([1,2,3]);
+    //删除1下标后的item
+    $s_col = $col->splice(1);
+    dd($s_col->all(),$col->all());*/
+
+    //slice,从数组中截取部分item
+/*    $col = collect([1,2,3]);
+    $slice = $col->slice(1,1);
+    dd($slice->all(),$col->all());*/
+
+    //reduce迭代计算数组的和，前一次计算的值回传，reduce第二个参数为初始值
+/*    $sum = collect([1,2,3])->reduce(function($first,$item){
+        return $first+$item;
+    },0);
+    dd($sum);*/
+
+    //返回多维collect指定键的值,返回值为数组
+/*    $key_mode = collect([
+        ['name'=>'caoxiang'],
+        ['name'=>'liulin'],
+        ['name'=>'daping']
+    ])->mode('name');
+    dd($key_mode);*/
+
+    //判断collect是否为空,空为false，非空为true
+/*    dd(collect([])->isNotEmpty());*/
+
+    //intersect 删除原集合不存在于新集合中键值对
+/*    $collect = collect(['a'=>'a','b'=>'b','c'=>'c']);
+    $intersect = $collect->intersectByKeys(['e'=>'e','a'=>'a','b'=>'b']);
+    dd($intersect->all());*/
+
+    //取交集intersect
+/*    $collect = collect([1,2,3]);
+    $intersect = $collect->intersect([2,3,4]);
+    dd($intersect->all());*/
+
+    $chunk = collect([1,2,3])->forPage(1,2);
+    dd($chunk->all());
 });
 
+
+Route::get('/helper',function (){
+    dd(page(2,4));
+});
 
 
 
