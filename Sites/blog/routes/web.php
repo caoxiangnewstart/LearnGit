@@ -298,8 +298,91 @@ Route::get('/hh',function(){
     dd(in_array(0,explode(',', 1)));
 });
 
+Route::group(['prefix'=>'/algori'],function(){
+    Route::get('/tento','AlgorithmController@tenToOther');
+});
 
+Route::get('/yield',function(){
+    //yield
+    $container = container();
+    var_dump('当前key:'.$container->key()."<br />");
+    var_dump("当前值:".$container->current()."<br />");
 
+    //下一步，指针下移
+    $container->next();
+    var_dump('指针移动后当前key:'.$container->key()."<br />");
+    var_dump("指针移动后当前值:".$container->current()."<br />");
 
+    if($container->valid()){
+        var_dump("容器还没关闭"."<br />");
+    }
 
+    $container->send('this is value send by function<br />');
+    $container->next();
+    if($container->valid()){
+        var_dump("容器还没关闭"."<br />");
+    }else{
+        var_dump("容器已经关闭"."<br />");
+    }
+});
+function container(){
+    $test = yield 'one';
+    var_dump($test);
+    $test = yield 'two';
+    var_dump($test);
+}
+
+Route::get('/arr',function(){
+    //数组迭代器
+/*    $arr = (new ArrayObject(['a','b','c']))->getIterator();
+    while ($arr->valid()){
+        $key = $arr->key();
+        var_dump($key."<br />");
+        $value = $arr->current();
+        var_dump($value."<br />");
+        $arr->next();
+    }*/
+
+    //stdClass类
+    //waiter点菜，kitchen做菜
+    $kitchen = new KitchenQueue();
+    $kitchen->waiter("Qin Jiao Rou Si");
+    $kitchen->waiter("Ma Po Dou Fu");
+    $kitchen->waiter("Fu Qi Fei Pian");
+    $kitchen->waiter("Kou Shui Ji");
+    var_dump($kitchen->kitchen());
+
+});
+
+class KitchenQueue
+{
+    /**
+     * @var \stdClass $cooking
+     */
+    protected $cooking;
+    /**
+     * 服务员
+     *
+     * @param $dishes
+     */
+    public function waiter($dishes)
+    {
+        $node          = new \stdClass();
+        //将dishes存入预定义对象的element中
+        $node->element = $dishes;
+        //将next属性存一个next
+        $node->next    = $this->cooking;
+        //愿对象永远又一个null属性用于存下一次菜单
+        $this->cooking = $node;
+    }
+    /**
+     * 厨师
+     *
+     * @return \stdClass
+     */
+    public function kitchen()
+    {
+        return $this->cooking;
+    }
+}
 

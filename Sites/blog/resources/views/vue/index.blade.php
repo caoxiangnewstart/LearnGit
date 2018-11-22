@@ -22,8 +22,35 @@
         <div id="reverse" @click="wordreverse">
             @{{ message }}
         </div>
+        <div id="app">
+            checkbox:<input type="checkbox" v-model="toggle"
+                   :false-value='a'
+                   :true-value='b'
+            >
+            radio: <input type="radio" v-model="radio2" :value="a">
+
+            参数特性number:<input v-model="age" number>
+        </div>
     </div>
 </body>
+<script type="text/javascript">
+    //v-model 通常绑定到字符串，但是如果是bool值可以用false-value，true-value来自定义绑定的值
+    $click = new Vue({
+        el : '#app',
+        data : {
+            toggle : '',
+            a : 'hello',
+            b : 'world',
+            radio2 : '',
+            age : ''
+        },
+        methods : {
+            proEvent(event){
+                event.preventDefault();
+            }
+        }
+    })
+</script>
 <script type="text/javascript">
     $index = new Vue({
         el : ".modal-title",
