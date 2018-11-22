@@ -55,6 +55,10 @@ Route::group(['prefix'=>'/new'], function(){
     Route::get('/test2',"NewController@test2");
 });
 
+Route::group(['prefix'=>'/vue'],function(){
+    Route::get('/index',"VueController@index");
+});
+
 
 //静态门面
 Route::get('/get/{key}',function($key){
@@ -289,6 +293,12 @@ Route::get('/collect',function(){
 Route::get('/helper',function (){
     dd(page(2,4));
 });
+
+Route::get('/hh',function(){
+    dd(in_array(0,explode(',', 1)));
+});
+
+
 
 
 
